@@ -1,0 +1,38 @@
+<h1 class="text-center my-5">Moje wizyty</h1>
+
+{{#if visits}}
+  <div class="d-flex justify-content-center align-items-center full-height">
+    <table class="table table-sm align-middle table-striped table-bordered text-center w-50">
+      <thead>
+        <tr class="table-dark">
+          <th class="w-50">Temat wizyty</th>
+          <th class="w-50">Termin wizyty</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each visits}}
+          <tr>
+            <td>{{visitType}}</td>
+            <td>{{visitDate}}</td>
+            <td>
+              <div class="d-flex flex-row">
+                <a href="/visits/edit/{{_id}}" class="btn btn-sm"><i class="fas fa-edit"></i></a>
+
+                <form action="/visits/{{_id}}" method="POST" id="delete-form">
+                  <input type="hidden" name="_method" value="DELETE" />
+                  <button type="submit" class="btn btn-sm"><i class="fas fa-trash"></i></button>
+                </form>
+              </div>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+{{else}}
+  <div class="text-center">
+    <h3>Brak zarejestrowanych wizyt</h3>
+    <a href="/visits/add" class="btn btn-primary btn-lg m-3">Dodaj wizytę</a>
+  </div>
+{{/if}}

@@ -1,0 +1,27 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container"><a class="navbar-brand" href="/">TattooStudio</a>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav ms-auto">
+        {{#if user}}
+          <li class="nav-item"><a class="nav-link" href="/visits">Lista wizyt</a></li>
+          <li class="nav-item"><a class="nav-link" href="/dashboard">Moje wizyty</a></li>
+          <li class="nav-item"><a class="nav-link" href="/visits/add">Dodaj wizytę</a></li>
+          <li class="nav-item"><a class="nav-link" href="/auth/logout">Wyloguj</a></li>
+        {{else}}
+          <li class="nav-item"><a class="nav-link" href="/login">Zaloguj</a></li>
+        {{/if}}
+      </ul>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,87 @@
+<h1 class="text-center my-5">Lista wizyt</h1>
+{{#if visits}}
+  <div class="d-flex justify-content-center align-items-center full-height">
+    <table class="table table-sm align-middle table-striped table-bordered w-75">
+      <thead>
+        <tr class="table-dark text-center align-middle">
+          <th class="w-50">
+            Użytkownik 
+            <button class="btn btn-sm text-white sort-btn" data-column="user" data-order="asc">⇅</button>
+          </th>
+          <th class="w-25">
+            Temat wizyty
+            <button class="btn btn-sm text-white sort-btn" data-column="visitType" data-order="asc">⇅</button>
+          </th>
+          <th class="w-25">
+            Data wizyty
+            <button class="btn btn-sm text-white sort-btn" data-column="visitDate" data-order="asc">⇅</button>
+          </th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="visitsTable">
+        {{#each visits}}
+          <tr>
+            <td class="px-3">
+              <img src="{{user.image}}" alt="" class="rounded-circle me-2" width="30" height="30">
+              {{user.displayName}}
+            </td>
+            <td class="text-center">{{visitType}}</td>
+            <td class="text-center" data-date="{{visitDate}}">
+              {{visitDate}}
+            </td>
+            <td>
+              <div class="d-flex flex-row">
+                {{{editIcon user ../user _id}}}
+                <form action="/visits/{{_id}}" method="POST" id="delete-form-{{_id}}">
+                  <input type="hidden" name="_method" value="DELETE">
+                  {{{deleteIcon user ../user _id}}}
+                </form>
+              </div>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+{{else}}
+  <div class="text-center">
+    <h3>Brak zarejestrowanych wizyt</h3>
+    <a href="/visits/add" class="btn btn-primary btn-lg m-3">Dodaj wizytę</a>
+  </div>
+{{/if}}
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const table = document.getElementById("visitsTable");
+    const buttons = document.querySelectorAll(".sort-btn");
+
+    buttons.forEach(button => {
+        button.addEventListener("click", function() {
+            const column = this.getAttribute("data-column");
+            let order = this.getAttribute("data-order");
+            
+            let rows = Array.from(table.rows);
+
+            rows.sort((a, b) => {
+                let aValue, bValue;
+
+                if (column === "visitDate") {
+                    aValue = new Date(a.querySelector("[data-date]").getAttribute("data-date"));
+                    bValue = new Date(b.querySelector("[data-date]").getAttribute("data-date"));
+                } else {
+                    aValue = a.cells[column === "user" ? 0 : 1].innerText.trim();
+                    bValue = b.cells[column === "user" ? 0 : 1].innerText.trim();
+                }
+
+                return order === "asc" ? aValue > bValue ? 1 : -1 : aValue < bValue ? 1 : -1;
+            });
+
+            rows.forEach(row => table.appendChild(row));
+
+            // Zmiana kierunku sortowania
+            this.setAttribute("data-order", order === "asc" ? "desc" : "asc");
+        });
+    });
+});
+</script>

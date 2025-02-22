@@ -1,0 +1,33 @@
+<h1 class="text-center my-5">Edycja wizyty</h1>
+
+<div class="container">
+  <form action="/visits/{{visit._id}}" method="POST" class="row g-3 mx-auto">
+    <input type="hidden" name="_method" value="PUT" />
+
+    <div class="mb-3">
+      <label for="visitType" class="form-label">Temat wizyty</label>
+      <select name="visitType" id="visitType" class="form-select" value="{{visit.visitType}}">
+        {{#select visit.visitType}}
+          <option value="Tatuaż" selected>Tatuaż</option>
+          <option value="Usunięcie tatuażu">Usunięcie tatuażu</option>
+          <option value="Konsultacja">Konsultacja</option>
+          <option value="Inny">Inny</option>
+        {{/select}}
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="visitDate" class="form-label">Wybierz termin</label>
+      <input type="date" id="visitDate" name="visitDate" class="form-control" value="{{visit.visitDate}}"/>
+    </div>
+
+    <div class="d-flex justify-content-center align-items-center">
+      <div class="col d-grid px-1">
+        <a href="/visits" class="btn btn-outline-dark">Anuluj</a>
+      </div>
+      <div class="col d-grid px-1">
+        <button type="submit" class="btn btn-primary">Zaktualizuj</button>
+      </div>
+    </div>
+  </form>
+</div>
